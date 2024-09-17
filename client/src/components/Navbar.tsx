@@ -46,10 +46,11 @@ const Navbar = (props: Props) => {
             <Moon className="h-6 w-6 cursor-pointer dark:text-white" />
           )}
         </button>
+        {/* <ModeToggle /> */}
         <Link
           className={
             isDarkMode
-              ? `h-min w-min rounded p-2 dark:hover:bg-gray-700`
+              ? `h-min w-min rounded p-2`
               : `h-min w-min rounded p-2 hover:bg-gray-100`
           }
           href="/settings"
