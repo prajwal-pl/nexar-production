@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import DashboardWrapper from "./DashboardWrapper";
+import NextTopLoader from "nextjs-toploader";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -29,7 +30,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <DashboardWrapper>{children}</DashboardWrapper>
+        <DashboardWrapper>
+          <NextTopLoader showSpinner={false} />
+          {children}
+        </DashboardWrapper>
       </body>
     </html>
   );
