@@ -8,7 +8,7 @@ export const getTasks = async (req: Request, res: Response): Promise<void> => {
   try {
     const tasks = await prisma.task.findMany({
       where: {
-        projectId: Number(projectId),
+        projectId: Number(projectId) || undefined,
       },
       include: {
         author: true,
