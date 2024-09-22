@@ -30,17 +30,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {/* <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        > */}
         <DashboardWrapper>
           <NextTopLoader showSpinner={false} />
           {children}
         </DashboardWrapper>
-        {/* </ThemeProvider> */}
       </body>
     </html>
   );

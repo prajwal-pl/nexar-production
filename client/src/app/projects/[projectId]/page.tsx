@@ -17,6 +17,11 @@ const ProjectPage = ({ params }: Props) => {
   const [isModalNewTaskOpen, setIsModalNewTaskOpen] = useState(false);
   return (
     <div>
+      {/* <ModalNewTask
+        isOpen={isModalNewTaskOpen}
+        onClose={() => setIsModalNewTaskOpen(false)}
+        id={id}
+      /> */}
       <ProjectHeader activeTab={activeTab} setActiveTab={setActiveTab} />
       {activeTab === "Board" && (
         <Board id={id} setIsModalNewTaskOpen={setIsModalNewTaskOpen} />
