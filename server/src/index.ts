@@ -8,6 +8,7 @@ import dotenv from "dotenv";
 import projectRoute from "./routes/projectRoute";
 import taskRoute from "./routes/taskRoute";
 import searchRoute from "./routes/searchRoute";
+import userRoute from "./routes/userRoute";
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.get("/", (req, res) => {
 app.use("/projects", projectRoute);
 app.use("/tasks", taskRoute);
 app.use("/search", searchRoute);
+app.use("/users", userRoute);
 
 const port = process.env.PORT || 8000;
 
