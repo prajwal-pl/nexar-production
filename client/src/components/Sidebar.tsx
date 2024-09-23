@@ -59,7 +59,7 @@ const Sidebar = (props: Props) => {
             </button>
           )}
         </div>
-        <div className="flex items-center gap-5 border-y-[1.5px] border-gray-200 px-8 py-4 dark:border-gray-700">
+        {/* <div className="flex items-center gap-5 border-y-[1.5px] border-gray-200 px-8 py-4 dark:border-gray-700">
           <Image src="/favicon.ico" alt="Logo" width={40} height={40} />
           <div>
             <h3 className="text-md font-bold tracking-wide dark:text-gray-200">
@@ -70,7 +70,7 @@ const Sidebar = (props: Props) => {
               <p className="text-xs text-gray-500">Private</p>
             </div>
           </div>
-        </div>
+        </div> */}
         <nav className="z-10 w-full">
           <SidebarLink icon={Home} label="Home" href="/" />
           <SidebarLink icon={Briefcase} label="Timeline" href="/timeline" />
