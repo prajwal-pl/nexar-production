@@ -12,8 +12,8 @@ const ModalNewProject = ({ isOpen, onClose }: Props) => {
   const [createProject, { isLoading }] = useCreateProjectMutation();
   const [projectName, setProjectName] = useState("");
   const [description, setDescription] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
 
   const isFormValid = () => {
     return projectName && description && startDate && endDate;
@@ -64,14 +64,14 @@ const ModalNewProject = ({ isOpen, onClose }: Props) => {
           <input
             type="date"
             className={inputStyles}
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
+            value={startDate ? startDate.toISOString() : ""}
+            onChange={(e) => setStartDate(e.target.valueAsDate)}
           />
           <input
             type="date"
             className={inputStyles}
-            value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
+            value={endDate ? endDate.toISOString() : ""}
+            onChange={(e) => setEndDate(e.target.valueAsDate)}
           />
         </div>
         <button
