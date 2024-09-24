@@ -3,6 +3,7 @@
 import {
   Priority,
   Project,
+  Status,
   Task,
   useGetProjectQuery,
   useGetProjectsQuery,
@@ -70,19 +71,38 @@ const DashboardPage = () => {
     count: priorityCount[key],
   }));
 
-  const statusCount = projects.reduce(
-    (acc: Record<string, number>, project: Project) => {
-      const status = project.endDate ? "Completed" : "Active";
-      acc[status] = (acc[status] || 0) + 1;
+  const statusCount = tasks.reduce(
+    (acc: Record<string, number>, task: Task) => {
+      const { status } = task;
+      acc[status as Status] = (acc[status as Status] || 0) + 1;
       return acc;
     },
     {}
   );
 
-  const projectStatus = Object.keys(statusCount).map((key) => ({
+  const statusDistribution = Object.keys(statusCount).map((key) => ({
     name: key,
     count: statusCount[key],
   }));
+
+  // const statusCount = projects.reduce(
+  //   (acc: Record<string, number>, project: Project) => {
+  //     const status = project.endDate ? "Completed" : "Active";
+  //     acc[status] = (acc[status] || 0) + 1;
+  //     return acc;
+  //   },
+  //   {}
+  // );
+
+  // const taskStatus = tasks.map((task) => {
+  //   const status = task.status;
+  //   return status;
+  // });
+
+  // const projectStatus = Object.keys(statusCount).map((key) => ({
+  //   name: key,
+  //   count: statusCount[key],
+  // }));
 
   const chartColors = isDarkMode
     ? {
@@ -169,8 +189,13 @@ const DashboardPage = () => {
           </h3>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
-              <Pie dataKey="count" data={projectStatus} fill="#82ca9d" label>
-                {projectStatus.map((entry, index) => (
+              <Pie
+                dataKey="count"
+                data={statusDistribution}
+                fill="#82ca9d"
+                label
+              >
+                {statusDistribution.map((entry, index) => (
                   <Cell
                     key={`cell-${index}`}
                     fill={COLORS[index % COLORS.length]}

@@ -7,6 +7,7 @@ import ListView from "../ListView";
 import TimelineView from "../TimeLineView";
 import TableView from "../TableView";
 import ModalNewTask from "../ModalNewTask";
+import { useGetProjectQuery } from "@/state/api";
 
 type Props = {
   params: { id: string };
@@ -16,6 +17,7 @@ const ProjectPage = ({ params }: Props) => {
   const { id } = params;
   const [activeTab, setActiveTab] = useState("Board");
   const [isModalNewTaskOpen, setIsModalNewTaskOpen] = useState(false);
+  const { data: project } = useGetProjectQuery({ projectId: Number(id) });
   return (
     <div>
       <ModalNewTask
@@ -23,7 +25,11 @@ const ProjectPage = ({ params }: Props) => {
         onClose={() => setIsModalNewTaskOpen(false)}
         id={id}
       />
-      <ProjectHeader activeTab={activeTab} setActiveTab={setActiveTab} />
+      <ProjectHeader
+        name={project?.name || ""}
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+      />
       {activeTab === "Board" && (
         <Board id={id} setIsModalNewTaskOpen={setIsModalNewTaskOpen} />
       )}
