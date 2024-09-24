@@ -26,7 +26,8 @@ import {
   YAxis,
 } from "recharts";
 import { dataGridClassNames, dataGridSxStyles } from "@/libs/utils";
-import { Briefcase } from "lucide-react";
+import { Briefcase, Plus } from "lucide-react";
+import ModalNewProject from "../projects/ModalNewProject";
 
 const taskColumns: GridColDef[] = [
   { field: "title", headerName: "Title", width: 200 },
@@ -37,8 +38,9 @@ const taskColumns: GridColDef[] = [
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
-const HomePage = () => {
+const DashboardPage = () => {
   const [projectId, setProjectId] = useState<number>(1);
+  const [isModalNewProjectOpen, setIsModalNewProjectOpen] = useState(false);
   const {
     data: tasks,
     isLoading: tasksLoading,
@@ -105,17 +107,32 @@ const HomePage = () => {
     }
   };
 
+  const handleNewProject = () => {
+    setIsModalNewProjectOpen(true);
+  };
   return (
-    <div className="container h-full w-[100%] bg-gray-100 bg-transparent p-8">
+    <div className="container h-full max-w-screen-xl w-[100%] bg-gray-100 bg-transparent p-8">
+      <ModalNewProject
+        isOpen={isModalNewProjectOpen}
+        onClose={() => setIsModalNewProjectOpen(false)}
+      />
       <Header
         name="Project Management Dashboard"
         buttonComponent={
-          <button
-            className="flex items-center rounded-md bg-blue-primary px-3 py-2 text-white hover:bg-blue-600"
-            onClick={handleProjectIncrement}
-          >
-            <Briefcase className="mr-2 h-5 w-5" /> Change Project
-          </button>
+          <div className="flex gap-4">
+            <button
+              className="flex items-center rounded-md bg-blue-primary px-3 py-2 text-white hover:bg-blue-600"
+              onClick={handleProjectIncrement}
+            >
+              <Briefcase className="mr-2 h-5 w-5" /> Change Project
+            </button>
+            <button
+              className="flex items-center rounded-md bg-blue-primary px-3 py-2 text-white hover:bg-blue-600"
+              onClick={handleNewProject}
+            >
+              <Plus className="mr-2 h-5 w-5" /> New Project
+            </button>
+          </div>
         }
       />
       <div className="border-b my-4" />
@@ -187,4 +204,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default DashboardPage;

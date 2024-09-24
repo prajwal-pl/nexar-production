@@ -20,15 +20,27 @@ const Timeline = () => {
 
   const ganttTasks = useMemo(() => {
     return (
-      projects?.map((project) => ({
-        start: new Date(project.startDate as string),
-        end: new Date(project.endDate as string),
-        name: project.name,
-        id: `Project-${project.id}`,
-        type: "project" as TaskTypeItems,
-        progress: 50,
-        isDisabled: false,
-      })) || []
+      projects
+        ?.map((project) => {
+          const startDate = new Date(project.startDate as string);
+          const endDate = new Date(project.endDate as string);
+
+          // Check if startDate and endDate are valid dates
+          if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+            console.error(`Invalid date for project ${project.id}`);
+          }
+
+          return {
+            start: startDate,
+            end: endDate,
+            name: project.name,
+            id: `Project-${project.id}`,
+            type: "project" as TaskTypeItems,
+            progress: 50,
+            isDisabled: false,
+          };
+        })
+        .filter(Boolean) || []
     );
   }, [projects]);
 
