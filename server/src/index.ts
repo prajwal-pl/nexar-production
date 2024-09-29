@@ -27,10 +27,10 @@ app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(
   expressSession({
-    secret: "secret",
+    secret: process.env.COOKIE_SECRET!,
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 60000, httpOnly: true, secure: false },
+    cookie: { maxAge: 60000 * 1000, httpOnly: true, secure: false },
   })
 );
 

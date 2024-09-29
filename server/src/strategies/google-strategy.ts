@@ -46,8 +46,7 @@ passport.use(
             profilePictureUrl: profile.photos[0].value,
           },
         });
-        console.log(newUser);
-        console.log(profile);
+
         return done(null, newUser);
       } catch (error: any) {
         return done(error, null);
