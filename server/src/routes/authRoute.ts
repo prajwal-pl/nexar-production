@@ -3,6 +3,8 @@ import passport from "passport";
 
 const router = Router();
 
+const CLIENT_URL = "http://localhost:3000";
+
 router.get(
   "/google",
   (req, res, next) => {
@@ -18,7 +20,10 @@ router.get(
     console.log("Google callback URL hit");
     next();
   },
-  passport.authenticate("google", { failureRedirect: "/" }),
+  passport.authenticate("google", {
+    failureRedirect: "/",
+    successRedirect: CLIENT_URL,
+  }),
   (req, res) => {
     console.log("User authenticated successfully");
     res.send("Authentication successful");
@@ -26,8 +31,13 @@ router.get(
 );
 
 router.get("/profile", (req, res) => {
-  if (req.isAuthenticated()) {
-    res.json({ user: req.user });
+  if (req.user) {
+    res.status(200).json({
+      success: true,
+      message: "successfull",
+      user: req.user,
+      //   cookies: req.cookies
+    });
   } else {
     res.status(401).json({ message: "Unauthorized" });
   }

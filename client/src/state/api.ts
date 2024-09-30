@@ -31,7 +31,6 @@ export interface User {
   cognitoId?: string;
   teamId?: number;
 }
-
 export interface Attachment {
   id: number;
   fileURL: string;
@@ -76,7 +75,7 @@ export interface Team {
 export const api = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_URL }),
-  tagTypes: ["Projects", "Tasks", "Users", "Teams"],
+  tagTypes: ["Projects", "Tasks", "Users", "Teams", "Profile"],
   endpoints: (build) => ({
     getProjects: build.query<Project[], void>({
       query: () => "projects",
@@ -130,6 +129,10 @@ export const api = createApi({
       query: ({ projectId }) => `projects/project?projectId=${projectId}`,
       providesTags: ["Projects"],
     }),
+    getProfile: build.query<any, void>({
+      query: () => "auth/profile",
+      providesTags: ["Profile"],
+    }),
   }),
 });
 
@@ -143,4 +146,5 @@ export const {
   useGetUsersQuery,
   useGetTeamsQuery,
   useGetProjectQuery,
+  useGetProfileQuery,
 } = api;

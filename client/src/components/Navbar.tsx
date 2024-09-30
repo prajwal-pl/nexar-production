@@ -1,14 +1,21 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Menu, Moon, Search, Settings, Sun } from "lucide-react";
 import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/app/redux";
 import { setIsDarkMode, setIsSidebarCollapsed } from "@/state";
 import { useRouter } from "next/navigation";
+import { useGetProfileQuery } from "@/state/api";
+import { Button } from "@mui/material";
 
 type Props = {};
 
 const Navbar = (props: Props) => {
+  // const { data: profile } = useGetProfileQuery();
+  // console.log(profile);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [profile, setProfile] = useState();
+
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const dispatch = useAppDispatch();
@@ -16,6 +23,41 @@ const Navbar = (props: Props) => {
     (state) => state.global.isSidebarCollapsed
   );
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
+  useEffect(() => {
+    if (isLoggedIn) {
+      return;
+    }
+    const fetchProfile = () => {
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/profile`, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Credentials": "true",
+          Accept: "application/json",
+          "Allow-Content-Allow-Origin": "http://localhost:3000",
+        },
+      })
+        .then((response) => {
+          if (response.status === 200) return response.json();
+          throw new Error("authentication has been failed!");
+        })
+        .then((resObject) => {
+          setProfile(resObject.user);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+    fetchProfile();
+  }, [isLoggedIn]);
+  const handleLogin = () => {
+    router.push(`${process.env.NEXT_PUBLIC_API_URL}/auth/google`);
+    setIsLoggedIn(true);
+  };
+  const handleLogout = () => {
+    router.push(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`);
+  };
   return (
     <div className="flex items-center justify-between bg-white px-4 py-3 dark:bg-black">
       <div className="flex items-center gap-8">
@@ -59,7 +101,6 @@ const Navbar = (props: Props) => {
             <Moon className="h-6 w-6 cursor-pointer dark:text-white" />
           )}
         </button>
-        {/* <ModeToggle /> */}
         <Link
           className={
             isDarkMode
@@ -71,6 +112,11 @@ const Navbar = (props: Props) => {
           <Settings className="h-6 w-6 cursor-pointer dark:text-white" />
         </Link>
         <div className="ml-2 mr-5 hidden min-h-[2em] w-[0.1rem] bg-gray-200 md:inline-block"></div>
+        <div>
+          <Button onClick={profile ? handleLogout : handleLogin}>
+            {profile ? "Logout" : "Login"}
+          </Button>
+        </div>
       </div>
     </div>
   );
