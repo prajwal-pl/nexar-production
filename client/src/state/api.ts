@@ -130,7 +130,16 @@ export const api = createApi({
       providesTags: ["Projects"],
     }),
     getProfile: build.query<any, void>({
-      query: () => "auth/profile",
+      query: () => ({
+        url: "auth/profile",
+        credentials: "include",
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Access-Control-Allow-Credentials": "true",
+        },
+      }),
       providesTags: ["Profile"],
     }),
   }),

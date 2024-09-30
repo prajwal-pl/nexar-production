@@ -1,20 +1,38 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Menu, Moon, Search, Settings, Sun } from "lucide-react";
+import {
+  Menu,
+  Moon,
+  Search,
+  Settings,
+  Sun,
+  User,
+  UserCircle2Icon,
+  UserIcon,
+} from "lucide-react";
 import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/app/redux";
 import { setIsDarkMode, setIsSidebarCollapsed } from "@/state";
 import { useRouter } from "next/navigation";
 import { useGetProfileQuery } from "@/state/api";
 import { Button } from "@mui/material";
+import Image from "next/image";
 
 type Props = {};
 
+interface Profile {
+  userId?: number;
+  username: string;
+  profilePictureUrl?: string;
+  cognitoId?: string;
+  teamId?: number;
+}
+
 const Navbar = (props: Props) => {
-  // const { data: profile } = useGetProfileQuery();
-  // console.log(profile);
+  const { data: profile } = useGetProfileQuery();
+  console.log(profile);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [profile, setProfile] = useState();
+  // const [profile, setProfile] = useState<Profile | null>(null);
 
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
@@ -23,34 +41,34 @@ const Navbar = (props: Props) => {
     (state) => state.global.isSidebarCollapsed
   );
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
-  useEffect(() => {
-    if (isLoggedIn) {
-      return;
-    }
-    const fetchProfile = () => {
-      fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/profile`, {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Credentials": "true",
-          Accept: "application/json",
-          "Allow-Content-Allow-Origin": "http://localhost:3000",
-        },
-      })
-        .then((response) => {
-          if (response.status === 200) return response.json();
-          throw new Error("authentication has been failed!");
-        })
-        .then((resObject) => {
-          setProfile(resObject.user);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    };
-    fetchProfile();
-  }, [isLoggedIn]);
+  // useEffect(() => {
+  //   if (isLoggedIn) {
+  //     return;
+  //   }
+  //   const fetchProfile = () => {
+  //     fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/profile`, {
+  //       method: "GET",
+  //       credentials: "include",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         "Access-Control-Allow-Credentials": "true",
+  //         Accept: "application/json",
+  //         "Allow-Content-Allow-Origin": "http://localhost:3000",
+  //       },
+  //     })
+  //       .then((response) => {
+  //         if (response.status === 200) return response.json();
+  //         throw new Error("authentication has been failed!");
+  //       })
+  //       .then((resObject) => {
+  //         setProfile(resObject.user);
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  //   };
+  //   fetchProfile();
+  // }, [isLoggedIn]);
   const handleLogin = () => {
     router.push(`${process.env.NEXT_PUBLIC_API_URL}/auth/google`);
     setIsLoggedIn(true);
@@ -114,7 +132,24 @@ const Navbar = (props: Props) => {
         <div className="ml-2 mr-5 hidden min-h-[2em] w-[0.1rem] bg-gray-200 md:inline-block"></div>
         <div>
           <Button onClick={profile ? handleLogout : handleLogin}>
-            {profile ? "Logout" : "Login"}
+            {profile?.user ? (
+              <>
+                {profile?.user?.profilePictureUrl ? (
+                  <Image
+                    src={profile?.user?.profilePictureUrl || ""}
+                    alt="profile"
+                    width={30}
+                    height={30}
+                    className="rounded-full"
+                  />
+                ) : (
+                  <UserCircle2Icon className="h-6 w-6 cursor-pointer dark:text-white" />
+                )}
+                {/* <p className="mr-2 text-sm font-medium">{profile?.username}</p> */}
+              </>
+            ) : (
+              "Login"
+            )}
           </Button>
         </div>
       </div>
