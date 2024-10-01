@@ -31,7 +31,7 @@ router.get(
 );
 
 router.get("/profile", (req, res) => {
-  if (req.user) {
+  if (req.isAuthenticated()) {
     res.status(200).json({
       success: true,
       message: "successfull",

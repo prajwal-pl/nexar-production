@@ -84,7 +84,7 @@ model TaskAssignment {
   taskId Int
 
   user User @relation(fields: [userId], references: [userId])
-  task Task @relation(fields: [taskId], references: [id])
+  task Task @relation(fields: [taskId], references: [id], onDelete: Cascade)
 }
 
 model Attachment {
@@ -94,7 +94,7 @@ model Attachment {
   taskId       Int
   uploadedById Int
 
-  task       Task @relation(fields: [taskId], references: [id])
+  task       Task @relation(fields: [taskId], references: [id], onDelete: Cascade)
   uploadedBy User @relation(fields: [uploadedById], references: [userId])
 }
 
@@ -104,6 +104,6 @@ model Comment {
   taskId Int
   userId Int
 
-  task Task @relation(fields: [taskId], references: [id])
+  task Task @relation(fields: [taskId], references: [id], onDelete: Cascade)
   user User @relation(fields: [userId], references: [userId])
 }

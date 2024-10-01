@@ -1,10 +1,6 @@
 import Modal from "@/components/Modal";
-import {
-  useCreateProjectMutation,
-  useDeleteProjectMutation,
-} from "@/state/api";
-import { redirect } from "next/navigation";
-import React, { useState } from "react";
+import { useDeleteProjectMutation } from "@/state/api";
+import { useRouter } from "next/navigation";
 
 type Props = {
   isOpen: boolean;
@@ -13,25 +9,14 @@ type Props = {
 };
 
 const ModalDeleteProject = ({ isOpen, onClose, id }: Props) => {
-  //   const [createProject, { isLoading }] = useCreateProjectMutation();
-  //   const [projectName, setProjectName] = useState("");
-  //   const [description, setDescription] = useState("");
-  //   const [startDate, setStartDate] = useState<Date | null>(null);
-  //   const [endDate, setEndDate] = useState<Date | null>(null);
+  const router = useRouter();
 
   const [deleteProject] = useDeleteProjectMutation();
 
-  //   const isFormValid = () => {
-  //     return projectName && description && startDate && endDate;
-  //   };
-  const handleSubmit = () => {
-    deleteProject({ projectId: Number(id) }).then(() => {
-      onClose();
-      window.location.href = "/";
-    });
+  const handleSubmit = async () => {
+    await deleteProject({ projectId: Number(id) });
+    router.push("/");
   };
-  const inputStyles =
-    "w-full rounded border border-gray-300 p-2 shadow-sm dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none";
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} name="Delete Project">
