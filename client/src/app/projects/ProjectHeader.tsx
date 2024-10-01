@@ -7,10 +7,10 @@ import {
   PlusSquare,
   Share2,
   Table,
+  Trash2,
 } from "lucide-react";
 import React, { useState } from "react";
 import ModalNewProject from "./ModalNewProject";
-// import ModalNewProject from "./ModalNewProject";
 
 type Props = {
   activeTab: string;
@@ -31,12 +31,20 @@ const ProjectHeader = ({ name, activeTab, setActiveTab }: Props) => {
         <Header
           name={name}
           buttonComponent={
-            <button
-              className="flex items-center rounded-md bg-blue-primary px-3 py-2 text-white hover:bg-blue-600"
-              onClick={() => setIsModalNewProjectOpen(true)}
-            >
-              <PlusSquare className="mr-2 h-5 w-5" /> New Boards
-            </button>
+            <div className="flex items-center gap-3">
+              <button
+                className="flex items-center rounded-md bg-red-600 px-3 py-2 text-white hover:bg-red-800"
+                onClick={() => setIsModalNewProjectOpen(true)}
+              >
+                <Trash2 className="mr-2 h-5 w-5" /> Delete
+              </button>
+              <button
+                className="flex items-center rounded-md bg-blue-primary px-3 py-2 text-white hover:bg-blue-600"
+                onClick={() => setIsModalNewProjectOpen(true)}
+              >
+                <PlusSquare className="mr-2 h-5 w-5" /> New Boards
+              </button>
+            </div>
           }
         />
       </div>

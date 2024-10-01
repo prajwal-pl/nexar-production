@@ -142,6 +142,13 @@ export const api = createApi({
       }),
       providesTags: ["Profile"],
     }),
+    deleteProject: build.mutation<Project, { projectId: number }>({
+      query: ({ projectId }) => ({
+        url: `projects/${projectId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Projects"],
+    }),
   }),
 });
 

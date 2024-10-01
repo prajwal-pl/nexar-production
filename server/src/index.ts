@@ -35,7 +35,7 @@ app.use(
     secret: process.env.COOKIE_SECRET!,
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 60000 * 1000, httpOnly: true, secure: false },
+    cookie: { maxAge: 60000 * 60000 * 24 * 7, httpOnly: true, secure: false },
   })
 );
 
