@@ -163,4 +163,5 @@ export const {
   useGetTeamsQuery,
   useGetProjectQuery,
   useGetProfileQuery,
+  useDeleteProjectMutation,
 } = api;

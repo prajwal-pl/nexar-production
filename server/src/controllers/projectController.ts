@@ -62,8 +62,12 @@ export const deleteProject = async (
   req: Request,
   res: Response
 ): Promise<void> => {
+  const { projectId } = req.params;
   try {
-    const { projectId } = req.params;
+    // Delete related records first
+    await prisma.projectTeam.deleteMany({
+      where: { projectId: Number(projectId) },
+    });
     const project = await prisma.project.delete({
       where: {
         id: Number(projectId),

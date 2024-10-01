@@ -11,18 +11,26 @@ import {
 } from "lucide-react";
 import React, { useState } from "react";
 import ModalNewProject from "./ModalNewProject";
+import ModalDeleteProject from "./ModalDeleteProject";
 
 type Props = {
   activeTab: string;
   setActiveTab: (tabName: string) => void;
   name: string;
+  id: string | null;
 };
 
-const ProjectHeader = ({ name, activeTab, setActiveTab }: Props) => {
+const ProjectHeader = ({ name, activeTab, setActiveTab, id }: Props) => {
   const [isModalNewProjectOpen, setIsModalNewProjectOpen] = useState(false);
+  const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
 
   return (
     <div className="px-4 xl:px-6">
+      <ModalDeleteProject
+        id={id}
+        isOpen={isModalDeleteOpen}
+        onClose={() => setIsModalDeleteOpen(false)}
+      />
       <ModalNewProject
         isOpen={isModalNewProjectOpen}
         onClose={() => setIsModalNewProjectOpen(false)}
@@ -34,7 +42,9 @@ const ProjectHeader = ({ name, activeTab, setActiveTab }: Props) => {
             <div className="flex items-center gap-3">
               <button
                 className="flex items-center rounded-md bg-red-600 px-3 py-2 text-white hover:bg-red-800"
-                onClick={() => setIsModalNewProjectOpen(true)}
+                onClick={() => {
+                  setIsModalDeleteOpen(true);
+                }}
               >
                 <Trash2 className="mr-2 h-5 w-5" /> Delete
               </button>
