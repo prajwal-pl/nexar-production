@@ -134,23 +134,25 @@ const Sidebar = (props: Props) => {
         )} */}
       </div>
       {/* User Info with a logout button */}
-      <div className="flex items-center justify-between px-4 py-6 border-t border-blue-100 sticky bottom-0 bg-white dark:bg-black">
-        <div className="flex items-center gap-2">
-          <User
-            color={`${isDarkMode ? "#e5e7eb" : "#1f2937"}`}
-            className="h-5 w-5"
-          />
-          <span className="text-gray-800 dark:text-white">
-            {user?.user?.username || "User"}
-          </span>
+      {user && (
+        <div className="flex items-center justify-between px-4 py-6 border-t border-blue-100 sticky bottom-0 bg-white dark:bg-black">
+          <div className="flex items-center gap-2">
+            <User
+              color={`${isDarkMode ? "#e5e7eb" : "#1f2937"}`}
+              className="h-5 w-5"
+            />
+            <span className="text-gray-800 dark:text-white">
+              {user?.user?.username || "User"}
+            </span>
+          </div>
+          <button
+            onClick={handleLogout}
+            className="text-gray-500 hover:text-gray-600 dark:text-neutral-500 dark:hover:text-gray-300"
+          >
+            <LogOut className="h-5 w-5" />
+          </button>
         </div>
-        <button
-          onClick={handleLogout}
-          className="text-gray-500 hover:text-gray-600 dark:text-neutral-500 dark:hover:text-gray-300"
-        >
-          <LogOut className="h-5 w-5" />
-        </button>
-      </div>
+      )}
     </div>
   );
 };
