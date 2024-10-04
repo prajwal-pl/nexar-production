@@ -53,7 +53,7 @@ router.get("/logout", (req, res, next) => {
         return next(err);
       }
       res.clearCookie("connect.sid"); // Clear the session cookie
-      res.redirect("/"); // Redirect to the home page or login page
+      res.redirect(`CLIENT_URL`); // Redirect to the home page or login page
     });
   });
 });

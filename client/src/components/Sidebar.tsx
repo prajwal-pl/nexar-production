@@ -1,34 +1,31 @@
 "use client";
 import { useAppDispatch, useAppSelector } from "@/app/redux";
 import { setIsSidebarCollapsed } from "@/state";
-import { useGetProjectsQuery } from "@/state/api";
+import { useGetProfileQuery, useGetProjectsQuery } from "@/state/api";
 import {
-  AlertCircle,
-  AlertOctagon,
-  AlertTriangle,
   Briefcase,
   ChevronDown,
   ChevronUp,
-  Home,
-  Layers3,
   LayoutDashboard,
-  LockIcon,
+  LogOut,
   LucideIcon,
   Search,
   Settings,
-  ShieldAlert,
-  Trash2,
   User,
   Users,
   X,
 } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 type Props = {};
 
 const Sidebar = (props: Props) => {
+  const router = useRouter();
+  const { data: user } = useGetProfileQuery();
+  const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
+  console.log(user);
   const [showProjects, setShowProjects] = useState(true);
   const [showPriority, setShowPriority] = useState(true);
 
@@ -42,10 +39,17 @@ const Sidebar = (props: Props) => {
     transition-all duration-300 h-full z-40 dark:bg-black overflow-y-auto bg-white
     ${isSidebarCollapsed ? "w-0 hidden" : "w-64"}
   `;
+
+  const handleLogout = () => {
+    if (user) {
+      router.push(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`);
+    }
+    //toast message saying login
+  };
   return (
     <div className={sidebarClassNames}>
       <div className="flex h-[100%] w-full flex-col justify-start">
-        <div className="z-50 flex min-h-[56px] w-64 items-center justify-between bg-white px-6 pt-3 dark:bg-black">
+        <div className="z-50 flex min-h-[56px] w-64 items-center justify-between bg-white px-6 pt-3 dark:bg-black sticky top-0">
           <div className="text-xl font-bold text-gray-800 dark:text-white">
             NEXAR
           </div>
@@ -92,7 +96,7 @@ const Sidebar = (props: Props) => {
             ))}
           </>
         )}
-        <button
+        {/* <button
           onClick={() => setShowPriority((prev) => !prev)}
           className="flex w-full items-center justify-between px-8 py-3 text-gray-500"
         >
@@ -102,8 +106,8 @@ const Sidebar = (props: Props) => {
           ) : (
             <ChevronDown className="h-5 w-5" />
           )}
-        </button>
-        {showPriority && (
+        </button> */}
+        {/* {showPriority && (
           <>
             <SidebarLink
               icon={AlertCircle}
@@ -127,7 +131,25 @@ const Sidebar = (props: Props) => {
               href="/priority/backlog"
             />
           </>
-        )}
+        )} */}
+      </div>
+      {/* User Info with a logout button */}
+      <div className="flex items-center justify-between px-4 py-6 border-t border-blue-100 sticky bottom-0 bg-white dark:bg-black">
+        <div className="flex items-center gap-2">
+          <User
+            color={`${isDarkMode ? "#e5e7eb" : "#1f2937"}`}
+            className="h-5 w-5"
+          />
+          <span className="text-gray-800 dark:text-white">
+            {user?.user?.username || "User"}
+          </span>
+        </div>
+        <button
+          onClick={handleLogout}
+          className="text-gray-500 hover:text-gray-600 dark:text-neutral-500 dark:hover:text-gray-300"
+        >
+          <LogOut className="h-5 w-5" />
+        </button>
       </div>
     </div>
   );
