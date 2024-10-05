@@ -149,6 +149,14 @@ export const api = createApi({
       }),
       invalidatesTags: ["Projects"],
     }),
+    updateProfile: build.mutation<any, any>({
+      query: ({ userId, username }) => ({
+        url: `users/update/${userId}`,
+        method: "POST",
+        body: { username },
+      }),
+      invalidatesTags: ["Users"],
+    }),
   }),
 });
 
@@ -164,4 +172,5 @@ export const {
   useGetProjectQuery,
   useGetProfileQuery,
   useDeleteProjectMutation,
+  useUpdateProfileMutation,
 } = api;

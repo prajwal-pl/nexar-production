@@ -2,7 +2,6 @@
 
 import {
   Priority,
-  Project,
   Status,
   Task,
   useGetProjectQuery,
