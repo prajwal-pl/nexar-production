@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import DashboardWrapper from "./DashboardWrapper";
 import NextTopLoader from "nextjs-toploader";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -18,6 +19,9 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   title: "Nexar",
   description: "A project management tool for organizing tasks and projects",
+  icons: {
+    icon: "/favicon.jpg",
+  },
 };
 
 export default function RootLayout({
@@ -26,15 +30,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <DashboardWrapper>
-          <NextTopLoader showSpinner={false} />
-          {children}
-        </DashboardWrapper>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          <DashboardWrapper>
+            <NextTopLoader showSpinner={false} />
+            {children}
+          </DashboardWrapper>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
